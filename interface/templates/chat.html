@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jovem Programador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="https://www.jovemprogramador.com.br/img/favicon.png" type="image/x-icon">
+</head>
+<body>
+    <!-- Iframe para carregar o site de fundo -->
+    <iframe src="{{ url_for('site_local') }}" class="background-site"></iframe>
+
+    <!-- Widget do Chat -->
+    <div class="chat-widget-container">
+        <!-- O container principal do chat, inicialmente escondido -->
+        <div class="chat-container" id="chat-container">
+            <div class="chat-header">
+                <h2>Chatbot PJP</h2>
+                <button class="close-chat-btn" id="close-chat-btn">&times;</button>
+            </div>
+            <div class="chat-box" id="chat-box">
+                <div class="message bot-message">
+                    <p>Olá! Como posso te ajudar sobre o Jovem Programador?</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <form id="chat-form">
+                    <input type="text" id="user-input" placeholder="Digite sua mensagem..." autocomplete="off">
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+        <!-- Botão para abrir o chat -->
+        <button class="chat-toggle-button" id="chat-toggle-button">
+            <!-- Ícone de Chat (SVG) -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+        </button>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
