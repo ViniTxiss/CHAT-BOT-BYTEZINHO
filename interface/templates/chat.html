@@ -1,45 +1,37 @@
+html
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jovem Programador</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="shortcut icon" href="https://www.jovemprogramador.com.br/img/favicon.png" type="image/x-icon">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chat.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" />
+    <script src="{{ url_for('static', filename='chat.js') }}" defer></script>
 </head>
-<body>
-    <!-- Iframe para carregar o site de fundo -->
-    <iframe src="{{ url_for('site_local') }}" class="background-site"></iframe>
-
-    <!-- Widget do Chat -->
-    <div class="chat-widget-container">
-        <!-- O container principal do chat, inicialmente escondido -->
-        <div class="chat-container" id="chat-container">
-            <div class="chat-header">
-                <h2>Chatbot PJP</h2>
-                <button class="close-chat-btn" id="close-chat-btn">&times;</button>
-            </div>
-            <div class="chat-box" id="chat-box">
-                <div class="message bot-message">
-                    <p>Olá! Como posso te ajudar sobre o Jovem Programador?</p>
-                </div>
-            </div>
-            <div class="chat-input">
-                <form id="chat-form">
-                    <input type="text" id="user-input" placeholder="Digite sua mensagem..." autocomplete="off">
-                    <button type="submit">Enviar</button>
-                </form>
-            </div>
-        </div>
-        <!-- Botão para abrir o chat -->
-        <button class="chat-toggle-button" id="chat-toggle-button">
-            <!-- Ícone de Chat (SVG) -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-                <path d="M0 0h24v24H0z" fill="none"/>
-            </svg>
-        </button>
+<body class="chat-body">
+  <div id="chatbot-window" >
+    <div class="chat-container">
+      <header class="chat-header">
+        <h3>Olá! 👋<br>Como podemos ajudar?</h3>
+      </header>
+      <!-- A lista de perguntas predefinidas será escondida pelo JS após o início da conversa -->
+      <div id="initial-view">
+        <ul class="predefined-questions">
+          <li><a href="#" data-question="O que é o Jovem Programador?">O que é o Jovem Programador?</a></li>
+          <li><a href="#" data-question="Quais são os requisitos?">Quais são os requisitos?</a></li>
+          <li><a href="#" data-question="Como me inscrevo?">Como me inscrevo?</a></li>
+        </ul>
+      </div>
+      <!-- Área onde as mensagens da conversa aparecerão -->
+      <ul class="chatbox"></ul>
+      <!-- Formulário para enviar mensagens -->
+      <div class="chat-input">
+        <textarea placeholder="Digite sua mensagem..." required></textarea>
+        <span id="send-btn" class="material-symbols-outlined">send</span>
+      </div>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </div>
 </body>
 </html>

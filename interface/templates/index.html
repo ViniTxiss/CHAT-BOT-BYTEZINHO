@@ -1,49 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Chatbot Simples</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        #chat-box { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; }
-        .message { margin: 10px 0; }
-        .user { color: blue; }
-        .bot { color: green; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jovem Programador - Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
-    <h1>Chatbot</h1>
-    <div id="chat-box"></div>
-    <input type="text" id="input-msg" placeholder="Digite sua mensagem" autofocus />
-    <button onclick="sendMessage()">Enviar</button>
 
-    <script>
-        async function sendMessage() {
-            const input = document.getElementById('input-msg');
-            const message = input.value.trim();
-            if (!message) return;
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#">Jovem Programador</a>
+            </div>
+            <ul>
+                <li><a href="#hero">Início</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
 
-            addMessage('Você', message, 'user');
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Bem-vindo ao Futuro da Programação</h1>
+                <p>Tire suas dúvidas sobre o programa Jovem Programador com nosso assistente virtual.</p>
+            </div>
+        </section>
 
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message })
-            });
-            const data = await response.json();
+        <section id="sobre" class="content-section">
+            <div class="container">
+                <h2>Sobre o Programa</h2>
+                <p>O Programa Jovem Programador é uma iniciativa para capacitar jovens talentos no mundo da tecnologia, oferecendo formação de qualidade e gratuita para prepará-los para o mercado de trabalho. Nossa missão é transformar vidas através da educação e da tecnologia.</p>
+            </div>
+        </section>
 
-            addMessage('Bot', data.response, 'bot');
-            input.value = '';
-            input.focus();
-        }
+        <section id="contato" class="content-section alt-bg">
+            <div class="container">
+                <h2>Contato</h2>
+                <p>Para mais informações, entre em contato com a unidade do Senac SC mais próxima ou utilize nosso chatbot para perguntas frequentes.</p>
+            </div>
+        </section>
+    </main>
 
-        function addMessage(sender, message, cssClass) {
-            const chatBox = document.getElementById('chat-box');
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('message', cssClass);
-            msgDiv.textContent = `${sender}: ${message}`;
-            chatBox.appendChild(msgDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    </script>
+    <!-- Botão flutuante do Chatbot -->
+    <button id="chatbot-button" class="chatbot-toggler">
+        <span class="material-symbols-outlined">smart_toy</span>
+    </button>
+
+    <!-- Janela do Chatbot (Iframe) -->
+    <iframe 
+        id="chatbot-window" 
+        class="hidden"
+        src="{{ url_for('chat_page') }}"
+        title="Janela do Chatbot">
+    </iframe>
+
 </body>
 </html>

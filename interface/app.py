@@ -45,12 +45,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('chat.html')
+    return render_template('index.html')
 
 # Rota para servir a cópia local do site para demonstração
-@app.route('/site-local')
-def site_local():
-    return render_template('jovem_programador_sobre.html')
+@app.route('/chat-page')
+def chat_page():
+    return render_template('chat.html')
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -65,4 +65,4 @@ def chat():
     return jsonify({'response': bot_response})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
