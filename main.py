@@ -6,7 +6,7 @@ from typing import Optional
 
 # --- Constantes ---
 KNOWLEDGE_BASE_FILE = "dados.txt"
-GEMINI_MODEL_NAME = "gemini-2.5-pro"
+GEMINI_MODEL_NAME = "gemini-2.5-flash"
 PROMPT_TEMPLATE = """
 Use o conteúdo abaixo como base para responder a pergunta de forma direta, sem inventar nada que não esteja no texto.
 

@@ -5,7 +5,7 @@
 Este projeto é um assistente de chat (chatbot) desenvolvido para responder perguntas sobre o programa "Jovem Programador". Ele utiliza a API do Google Gemini para gerar respostas com base em uma base de conhecimento pré-definida, garantindo que as informações sejam precisas e contextuais.
 
 A aplicação possui duas interfaces:
-1.  Uma interface web amigável construída com Flask.
+1.  Uma interface web amigável e de alta performance construída com FastAPI.
 2.  Uma interface de linha de comando para testes e interações diretas.
 
 ## ✨ Funcionalidades
@@ -25,7 +25,7 @@ projeto int pjp/
 ├── scraping.py         # (Script auxiliar para obter dados, se aplicável)
 ├── README.md           # Este arquivo
 ├── requirements.txt    # Dependências do Python
-└── interface/
+└── interface/          # Código da interface web com FastAPI
     ├── app.py          # Servidor web Flask que serve a interface
     ├── static/         # Arquivos estáticos (CSS, JavaScript)
     │   ├── script.js
@@ -75,17 +75,21 @@ Você pode executar a aplicação de duas maneiras:
 
 1.  Navegue até a pasta `interface`: `cd interface`
 2.  Inicie o servidor Flask: `python app.py`
+    Alternativamente, usando o Uvicorn diretamente (recomendado para produção):
+    ```bash
+    uvicorn app:app --host 127.0.0.1 --port 5000
+    ```
 3.  Abra seu navegador e acesse `http://127.0.0.1:5000`.
 
 ### Interface de Linha de Comando
 
 1.  Certifique-se de estar na pasta raiz do projeto (`projeto int pjp/`).
-2.  Execute o script `main.py`: `python main.py`
+2.  Execute o script `main.py`: `python main.py` 
 3.  Interaja com o chatbot diretamente no seu terminal. Digite `sair` para encerrar.
 
 ## ⚙️ Como Funciona
 
 -   **`dados.txt`**: Contém pares de perguntas e respostas que servem como contexto para o modelo de linguagem.
 -   **`main.py`**: A função `responder_com_gemini` cria um *prompt* que instrui o Gemini a usar exclusivamente a `base_conhecimento` (o conteúdo de `dados.txt`) para formular a resposta à `pergunta_usuario`. Isso limita o escopo do modelo e aumenta a precisão.
--   **`interface/app.py`**: Este servidor Flask tem uma rota principal (`/`) que renderiza a página do chat e uma rota `/chat` (via POST) que recebe a mensagem do usuário em formato JSON. Ele chama a função `responder_com_gemini` e retorna a resposta do bot, também em JSON.
+-   **`interface/app.py`**: Este servidor FastAPI tem uma rota principal (`/`) que renderiza a página do chat e uma rota `/chat` (via POST) que recebe a mensagem do usuário em formato JSON. Ele chama a função `responder_com_gemini` e retorna a resposta do bot, também em JSON.
 -   **`interface/static/script.js`**: O JavaScript captura o envio do formulário, envia a mensagem do usuário para o endpoint `/chat` usando `fetch()`, aguarda a resposta e, em seguida, adiciona dinamicamente tanto a mensagem do usuário quanto a resposta do bot à janela de chat.

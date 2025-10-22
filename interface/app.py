@@ -1,4 +1,8 @@
-from flask import Flask, render_template, request, jsonify
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
@@ -41,28 +45,42 @@ except Exception as e:
     sys.exit(1) # Encerra a aplicação se o chatbot não puder ser inicializado
 # ------------------------------------
 
-app = Flask(__name__)
+app = FastAPI()
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+# Obtém o caminho absoluto para o diretório onde este script (app.py) está localizado.
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Rota para servir a cópia local do site para demonstração
-@app.route('/chat-page')
-def chat_page():
-    return render_template('chat.html')
+# Monta o diretório de arquivos estáticos (CSS, JS)
+# Constrói o caminho absoluto para o diretório 'static'
+static_dir = os.path.join(current_script_dir, "static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-@app.route('/chat', methods=['POST'])
-def chat():
+# Configura o diretório de templates Jinja2
+templates = Jinja2Templates(directory=os.path.join(current_script_dir, "templates"))
+
+# Define o modelo de dados para a requisição do chat
+class ChatRequest(BaseModel):
+    message: str
+
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    """Serve a página principal do chat."""
+    return templates.TemplateResponse("interface/templates/index.html", {"request": request})
+
+@app.post("/chat")
+async def chat(chat_request: ChatRequest):
+    """Recebe a mensagem do usuário e retorna a resposta do bot."""
     if not chat_session:
-        return jsonify({'response': 'Desculpe, o chatbot não está disponível no momento.'}), 500
+        raise HTTPException(status_code=500, detail="Desculpe, o chatbot não está disponível no momento.")
 
-    user_message = request.json.get('message')
+    user_message = chat_request.message
     if not user_message:
-        return jsonify({'error': 'Mensagem não pode ser vazia.'}), 400
+        raise HTTPException(status_code=400, detail="A mensagem não pode ser vazia.")
 
     bot_response = responder_com_gemini(chat_session, base_conhecimento, user_message)
-    return jsonify({'response': bot_response})
+    return JSONResponse(content={'response': bot_response})
 
 if __name__ == "__main__":
-    app.run()
+    import uvicorn
+    # Roda o servidor Uvicorn. O reload=True é ótimo para desenvolvimento.
+    uvicorn.run("app:app", host="127.0.0.1", port=5000, reload=True)
