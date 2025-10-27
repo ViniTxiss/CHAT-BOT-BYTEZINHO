@@ -10,25 +10,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
-try {
-    // enviar a pergunta para a api do backend
-    const response = await fetch('http://127.0.0.1:5000/perguntar', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ pergunta: perguntaUsuario }),
-    });
-
-    if (!response.ok) {
-        throw new Error('a resposta da API não foi ok');    
-    
-    }
-
-    const data = await response.json();
-    const respostaBot = data.resposta;
-}
-
-    adicionarMensagemAoChat(respostaBot, 'bot');
-

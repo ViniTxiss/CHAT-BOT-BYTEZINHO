@@ -65,7 +65,12 @@ class ChatRequest(BaseModel):
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     """Serve a página principal do chat."""
-    return templates.TemplateResponse("interface/templates/index.html", {"request": request})
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/chat-page", response_class=HTMLResponse)
+async def chat_page(request: Request):
+    """Serve a página do iframe do chat."""
+    return templates.TemplateResponse("chat.html", {"request": request})
 
 @app.post("/chat")
 async def chat(chat_request: ChatRequest):

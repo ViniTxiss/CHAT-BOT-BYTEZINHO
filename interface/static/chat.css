@@ -17,17 +17,22 @@ body {
 #chatbot-window {
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  /* Efeito de vidro fosco */
+  background-color: rgba(255, 255, 255, 0.5); /* Fundo branco com 50% de opacidade */
+  backdrop-filter: blur(10px); /* Desfoque do conteúdo atrás do elemento */
+  -webkit-backdrop-filter: blur(10px); /* Suporte para Safari */
+
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
+} 
 
 .chat-container {
   display: flex;
   flex-direction: column;
   height: 100%;
   background-color: #fff;
+  background-color: transparent; /* Remove o fundo sólido para o efeito de vidro funcionar */
 }
 
 .chat-header {
@@ -37,6 +42,7 @@ body {
   flex-shrink: 0; /* Impede que o header encolha */
   text-align: center;
   border-bottom: 1px solid #7d048d;
+  backdrop-filter: blur(10px); /* Efeito de vidro fosco */
 }
 
 .chat-header h3 {
@@ -53,6 +59,7 @@ body {
   list-style: none;
   color: #000;
   background-color: #f9f9f9;
+  background-color: rgba(249, 249, 249, 0.8); /* Fundo levemente transparente para as mensagens */
 }
 
 .chat-message {

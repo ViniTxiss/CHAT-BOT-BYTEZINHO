@@ -124,9 +124,10 @@ nav ul a:hover {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 11 20px 20px rgba(0,0,0,0.3);
   transition: transform 0.2s ease-in-out, background-color 0.2s;
   z-index: 1001; /* Fica sobre o header se necessário */
+  
 }
 
 #chatbot-button:hover {
@@ -150,6 +151,7 @@ nav ul a:hover {
   transform-origin: bottom right;
   z-index: 1001;
   border: none; /* Remove a borda padrão do iframe */
+  background-color: transparent; /* Garante que o iframe não tenha cor de fundo */
 }
 
 /* Classe para esconder/mostrar a janela */

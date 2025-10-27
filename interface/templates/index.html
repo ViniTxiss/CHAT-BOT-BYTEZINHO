@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jovem Programador - Chatbot</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
-    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <script src="{{ url_for('static', path='script.js') }}" defer></script>
 </head>
 <body>
 
@@ -55,7 +55,7 @@
     <iframe 
         id="chatbot-window" 
         class="hidden"
-        src="{{ url_for('chat_page') }}"
+        src="{{ url_for('chat_page') }}" 
         title="Janela do Chatbot">
     </iframe>
 
