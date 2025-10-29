@@ -109,13 +109,22 @@ nav ul a:hover {
 .alt-bg {
   background-color: #ffffff;
 }
-/* ===== 4. Estilos da Interface do Chatbot na Página Principal ===== */
-#chatbot-button {
+/* ===== 4. Estilos da Interface do Chatbot (FAB) na Página Principal ===== */
+#fab-container {
   position: fixed;
   bottom: 30px;
   right: 30px;
   width: 60px;
   height: 60px;
+  z-index: 1001;
+}
+
+#chatbot-button {
+  position: absolute; /* Posicionado dentro do #fab-container */
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
   background-color: #7d048d;
   color: white;
   border: none;
@@ -124,15 +133,41 @@ nav ul a:hover {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 11 20px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   transition: transform 0.2s ease-in-out, background-color 0.2s;
-  z-index: 1001; /* Fica sobre o header se necessário */
-  
+  z-index: 1002; /* Fica sobre os botões secundários */
 }
 
 #chatbot-button:hover {
   transform: scale(1.1);
   background-color: #b300b3;
+}
+
+/* Estilo para a imagem dentro do botão do chatbot */
+#chatbot-button img {
+  width: 75%; /* Ajusta a largura da imagem para 75% do botão */
+  height: auto;
+  object-fit: contain; /* Garante que a imagem se ajuste sem distorcer */
+}
+
+/* Estilos para os botões secundários */
+.fab-secondary {
+  position: absolute;
+  bottom: 5px; /* Alinhado com o centro do botão principal */
+  right: 5px;
+  width: 50px;
+  height: 50px;
+  background-color: #a33bb0;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1001;
+  /* Estado inicial para animação: invisível e sem interação */
+  opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
 }
 
 /* Estilos da Janela (Iframe) do Chatbot */

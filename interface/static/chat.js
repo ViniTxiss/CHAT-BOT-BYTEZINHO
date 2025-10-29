@@ -1,82 +1,101 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // --- Lógica para a página do chat (chat.html) ---
-    const chatInput = document.querySelector(".chat-input textarea");
-    const sendChatBtn = document.getElementById("send-btn");
     const chatbox = document.querySelector(".chatbox");
+    const chatInput = document.querySelector(".chat-input textarea");
+    const sendChatBtn = document.querySelector("#send-btn");
     const initialView = document.getElementById("initial-view");
     const predefinedQuestions = document.querySelectorAll(".predefined-questions a");
 
-    // Se não encontrar os elementos do chat, interrompe a execução
-    if (!chatInput || !sendChatBtn || !chatbox) return;
-
     let userMessage;
+    const API_URL = "/chat"; // Endpoint do FastAPI
 
     const createChatLi = (message, className) => {
         const chatLi = document.createElement("li");
-        chatLi.classList.add("chat-message", className);
-        // Adiciona o ícone do bot apenas para as mensagens do bot
-        let chatContent = className === "bot-message" 
-            ? `<span class="material-symbols-outlined">smart_toy</span><p></p>` 
-            : `<p></p>`;
+        chatLi.classList.add("chat", className);
+        let chatContent = className === "outgoing" ? `<p>${message}</p>` : `<p>${message}</p>`;
         chatLi.innerHTML = chatContent;
-        // Adiciona a mensagem de texto ao parágrafo
-        if (message) {
-            chatLi.querySelector("p").textContent = message;
-        }
         return chatLi;
     }
 
+    const showTypingIndicator = () => {
+        // Esconde a visão inicial se ela ainda estiver visível
+        if (initialView && !initialView.hidden) {
+            initialView.hidden = true;
+        }
+        const typingLi = document.createElement("li");
+        typingLi.classList.add("chat", "incoming", "typing-indicator-li");
+        typingLi.innerHTML = `
+            <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        `;
+        chatbox.appendChild(typingLi);
+        chatbox.scrollTo(0, chatbox.scrollHeight);
+    }
+
+    const hideTypingIndicator = () => {
+        const typingIndicator = document.querySelector(".typing-indicator-li");
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
     const generateResponse = (incomingChatLi) => {
-        const API_URL = "/chat";
         const messageElement = incomingChatLi.querySelector("p");
 
-        const requestOptions = {
+        fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                message: userMessage
-            })
-        }
-
-        fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
-            messageElement.textContent = data.response;
-        }).catch(() => {
-            messageElement.classList.add("error");
-            messageElement.textContent = "Oops! Algo deu errado. Por favor, tente novamente.";
-        }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
+            body: JSON.stringify({ message: userMessage })
+        })
+        .then(res => res.json())
+        .then(data => {
+            hideTypingIndicator(); // Esconde a animação
+            const botResponseLi = createChatLi(data.response, "incoming");
+            chatbox.appendChild(botResponseLi);
+        })
+        .catch((error) => {
+            hideTypingIndicator(); // Esconde a animação em caso de erro
+            const errorLi = createChatLi("Oops! Algo deu errado. Por favor, tente novamente.", "incoming");
+            chatbox.appendChild(errorLi);
+            console.error("Erro:", error);
+        })
+        .finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
     }
 
     const handleChat = (message) => {
         userMessage = message.trim();
         if (!userMessage) return;
 
-        // Esconde a visão inicial e limpa o input
-        if (initialView) initialView.style.display = "none";
-        chatInput.value = "";
+        chatInput.value = ""; // Limpa o input
 
-        chatbox.appendChild(createChatLi(userMessage, "user-message"));
+        // Adiciona a mensagem do usuário ao chat
+        chatbox.appendChild(createChatLi(userMessage, "outgoing"));
         chatbox.scrollTo(0, chatbox.scrollHeight);
 
+        // Mostra a animação de "digitando" e busca a resposta
         setTimeout(() => {
-            // Cria um balão de "Digitando..."
-            const incomingChatLi = createChatLi(null, "bot-message");
-            chatbox.appendChild(incomingChatLi);
-            chatbox.scrollTo(0, chatbox.scrollHeight);
-            generateResponse(incomingChatLi);
+            showTypingIndicator();
+            generateResponse(chatbox.lastChild);
         }, 600);
     }
 
+    // Evento para perguntas predefinidas
     predefinedQuestions.forEach(link => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
-            handleChat(link.dataset.question);
+            const question = e.target.getAttribute("data-question");
+            handleChat(question);
         });
     });
 
+    // Evento para o botão de enviar
     sendChatBtn.addEventListener("click", () => handleChat(chatInput.value));
-    
+
+    // Evento para a tecla Enter
     chatInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();

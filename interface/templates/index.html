@@ -46,10 +46,15 @@
         </section>
     </main>
 
-    <!-- Botão flutuante do Chatbot -->
-    <button id="chatbot-button" class="chatbot-toggler">
-        <span class="material-symbols-outlined">smart_toy</span>
-    </button>
+    <!-- Contêiner do Botão Flutuante (FAB) -->
+    <div id="fab-container">
+        <button class="fab-secondary">1</button>
+        <button class="fab-secondary">2</button>
+        <button class="fab-secondary">3</button>
+        <button id="chatbot-button" class="chatbot-toggler">
+            <img src="{{ url_for('static', path='images/figdest.PNG') }}" alt="Ícone do Chatbot">
+        </button>
+    </div>
 
     <!-- Janela do Chatbot (Iframe) -->
     <iframe 
