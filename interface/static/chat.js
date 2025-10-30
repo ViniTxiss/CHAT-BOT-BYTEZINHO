@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sendChatBtn = document.querySelector("#send-btn");
     const initialView = document.getElementById("initial-view");
     const predefinedQuestions = document.querySelectorAll(".predefined-questions a");
+    const expandBtn = document.getElementById("expand-btn");
 
     let userMessage;
     const API_URL = "/chat"; // Endpoint do FastAPI
@@ -101,5 +102,22 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             handleChat(chatInput.value);
         }
+    });
+    
+    // Funcionalidade do botão de expandir
+    let expanded = false;
+    expandBtn.addEventListener("click", () => {
+        const chatContainer = document.querySelector(".chat-container");
+        if (expanded) {
+            chatContainer.style.height = "100%";
+            expandBtn.textContent = "open_in_full";
+            expanded = false;
+        } else {
+            chatContainer.style.height = "90vh";
+            expandBtn.textContent = "close_fullscreen";
+            expanded = true;
+        }
+        // Rolar para o final das mensagens
+        chatbox.scrollTo(0, chatbox.scrollHeight);
     });
 });
