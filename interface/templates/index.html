@@ -1,65 +1,101 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jovem Programador - Chatbot</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
-    <script src="{{ url_for('static', path='script.js') }}" defer></script>
+    <title>BYTEZINHO - Seu assistente virtual</title>
+  <link rel="stylesheet" href="{{ url_for('static_files', path='style.css') }}">
 </head>
 <body>
+    <section class="section hero-section">
+      <div id="container"></div>
+      <div id="stats"></div>
+    
+    
+       <div class="header-area">
+    <div class="logo-container" id="theme-toggle">
+        <div class="logo-circles">
+        <div class="circle circle-1 logo-symbol logo-symbol-1"><span class="letter">b</span></div>
+        <div class="circle circle-2 logo-symbol logo-symbol-2"><span class="letter">b</span></div>
+      </div>
+          
+        </div>
+        <div class="center-logo">
+          <h1 id="logo-text"><span class="rest-text">Bytezinho</span></h1>
+        </div>
+      </div>
+    
+      <div class="hero">
+        <h1>Seja Bem vindo <br>estamos apresentando <br> Seu assistente virtual <br> interaja com ele</h1>
+       
+      </div>
+    
+      <div class="contact-info">
+        <p class="contact-heading">+Get in touch</p>
+        <span class="contact-email">hi@filip.fyi</span>
+      </div>
+    
+      <div class="footer-links">
+        <a href="#" class="footer-link">Fluid Dynamics</a>
+        <a href="#" class="footer-link">Organic Shapes</a>
+        <a href="#" class="footer-link">Interactive Forms</a>
+        <a href="#" class="footer-link">Motion Studies</a>
+        <a href="#" class="footer-link">Contact</a>
+      </div>
+    
+      <div class="coordinates">
+        <p>Nexus State • Active</p>
+        <p>where consciousness flows</p>
+      </div>
+    </section>
+    
+    <section class="section fin-section">
+      <div class="fin-text">{ Fin }</div>
+    </section>
 
-    <header>
-        <nav>
-            <div class="logo">
-                <a href="#">Jovem Programador</a>
-            </div>
-            <ul>
-                <li><a href="#hero">Início</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#contato">Contato</a></li>
-            </ul>
-        </nav>
-    </header>
+  <script type="module" src="{{ url_for('static_files', path='script.js') }}"></script>
 
-    <main>
-        <section id="hero">
-            <div class="hero-content">
-                <h1>Bem-vindo ao Futuro da Programação</h1>
-                <p>Tire suas dúvidas sobre o programa Jovem Programador com nosso assistente virtual.</p>
-            </div>
-        </section>
-
-        <section id="sobre" class="content-section">
-            <div class="container">
-                <h2>Sobre o Programa</h2>
-                <p>O Programa Jovem Programador é uma iniciativa para capacitar jovens talentos no mundo da tecnologia, oferecendo formação de qualidade e gratuita para prepará-los para o mercado de trabalho. Nossa missão é transformar vidas através da educação e da tecnologia.</p>
-            </div>
-        </section>
-
-        <section id="contato" class="content-section alt-bg">
-            <div class="container">
-                <h2>Contato</h2>
-                <p>Para mais informações, entre em contato com a unidade do Senac SC mais próxima ou utilize nosso chatbot para perguntas frequentes.</p>
-            </div>
-        </section>
-    </main>
-
-    <!-- Contêiner do Botão do Chatbot -->
-    <div id="fab-container">
-        <button id="chatbot-button" class="chatbot-toggler">
-            <img src="{{ url_for('static', path='images/figdest.PNG') }}" alt="Ícone do Chatbot">
-        </button>
+  <!-- Chatbot Container -->
+  <div class="chatbot-container" id="chatbot-container" aria-hidden="true">
+    <div class="chatbot-header">
+      <div class="chatbot-title">
+        <h3>🤖 Bytezinho AI</h3>
+        <span class="chatbot-status">Online</span>
+      </div>
+      <button class="chatbot-close-btn" id="chatbot-close-btn" aria-label="Fechar">×</button>
     </div>
 
-    <!-- Janela do Chatbot (Iframe) -->
-    <iframe 
-        id="chatbot-window" 
-        class="hidden"
-        src="{{ url_for('chat_page') }}" 
-        title="Janela do Chatbot">
-    </iframe>
+    <div class="chatbot-body" id="chatbot-body">
+      <div class="chat-message bot welcome-message">
+        <div class="message-content">
+          <strong>Bytezinho AI</strong>
+          <p>Olá! Sou o Bytezinho, seu assistente de IA. Como posso ajudar você hoje?</p>
+          <div class="suggestions">
+            <button class="suggestion-btn" data-message="Como faço para participar?">🤔 Como faço para participar? </button>
+            <button class="suggestion-btn" data-message="Sou menor de idade posso participar?">📈 Sou menor de idade posso participar?</button>
+            <button class="suggestion-btn" data-message="Onde eu posso fazer o curso ?"> Onde eu posso fazer o curso ?</button>
+          </div>
+          <span class="message-time" id="current-time"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chatbot-input-container">
+      <input type="text" id="chatbot-input" placeholder="Digite sua mensagem..." maxlength="500" aria-label="Mensagem">
+      <button id="chatbot-send-btn" aria-label="Enviar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Chatbot Toggler Button -->
+  <button class="chatbot-toggler" id="chatbot-toggler" aria-label="Abrir chat">
+    <span class="chatbot-icon">🤖</span>
+    <span class="chatbot-notification" aria-hidden="true"></span>
+  </button>
+
+  <link rel="stylesheet" href="{{ url_for('static_files', path='chat.css') }}">
+  <script src="{{ url_for('static_files', path='chatbot-ui.js') }}"></script>
 
 </body>
 </html>

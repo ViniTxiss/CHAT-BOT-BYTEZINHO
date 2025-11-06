@@ -23,6 +23,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 load_dotenv(dotenv_path=dotenv_path)
 
+base_conhecimento = None
+chat_session = None
+
 try:
     logging.info("Iniciando o chatbot...")
     # Define o caminho para o arquivo de dados
@@ -38,25 +41,24 @@ try:
     logging.info("✅ Chatbot Gemini inicializado com sucesso!")
 
 except Exception as e:
-    logging.error(f"❌ Erro fatal ao inicializar o chatbot: {e}", exc_info=True)
-    print("\n--- ERRO CRÍTICO: APLICAÇÃO NÃO PODE INICIAR ---")
-    print("Ocorreu um erro durante a inicialização do chatbot, e a aplicação será encerrada.")
-    print("Verifique o log de erro detalhado acima. Causas comuns incluem:\n  1. Chave de API (GOOGLE_API_KEY) ausente ou inválida no arquivo '.env'.\n  2. Arquivo 'dados.txt' não encontrado ou com formato incorreto.\n  3. Problemas de conexão com a internet.\n  4. Biblioteca 'google-generativeai' não instalada corretamente.")
-    sys.exit(1) # Encerra a aplicação se o chatbot não puder ser inicializado
+    # Não encerraremos a aplicação: permitimos que o servidor rode mesmo sem o modelo
+    logging.error(f"❌ Erro ao inicializar o chatbot (modo degradado): {e}", exc_info=True)
+    print("[Aviso] O chatbot não pôde ser inicializado. O servidor continuará rodando em modo degradado.")
+    # base_conhecimento e chat_session permanecem None — a rota /chat irá responder com erro apropriado
 # ------------------------------------
 
 app = FastAPI()
 
-# Obtém o caminho absoluto para o diretório onde este script (app.py) está localizado.
-current_script_dir = os.path.dirname(os.path.abspath(__file__))
+# Configura os caminhos dos diretórios absolutos
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
-# Monta o diretório de arquivos estáticos (CSS, JS)
-# Constrói o caminho absoluto para o diretório 'static'
-static_dir = os.path.join(current_script_dir, "static")
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+# Configura os templates primeiro
+templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
-# Configura o diretório de templates Jinja2
-templates = Jinja2Templates(directory=os.path.join(current_script_dir, "templates"))
+# Configura os arquivos estáticos com nome explícito
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static_files")
 
 # Define o modelo de dados para a requisição do chat
 class ChatRequest(BaseModel):
@@ -88,4 +90,5 @@ async def chat(chat_request: ChatRequest):
 if __name__ == "__main__":
     import uvicorn
     # Roda o servidor Uvicorn. O reload=True é ótimo para desenvolvimento.
-    uvicorn.run("app:app", host="127.0.0.1", port=5000, reload=True)
+    # Usamos reload=False aqui para evitar problemas com reloader em alguns ambientes
+    uvicorn.run("app:app", host="127.0.0.1", port=5000, reload=False)

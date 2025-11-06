@@ -174,8 +174,7 @@ body::after {
   transition: transform var(--transition-medium);
   width: 1.4rem;
   height: 1.4rem;
-  /* tornar transparente para não exibir o círculo */
-  background-color: transparent;
+  background-color: var(--text-primary);
   top: 50%;
 }
 
@@ -426,89 +425,4 @@ body::after {
     width: 95%;
     font-size: 0.75rem;
   }
-}
-
-/* Remova ou ignore as regras para .circle e .circle-2 */
-
-.logo-circles {
-    position: relative; /* Isso pode ser necessário para posicionar os símbolos dentro */
-    width: 2.8rem; /* Largura total aproximada dos dois "círculos" */
-    height: 1.4rem; /* Altura de um "círculo" */
-    display: flex; /* Para centralizar os símbolos se precisar */
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-symbol {
-  position: absolute; /* posicionar individualmente e sobrepor */
-  font-size: 1.6rem; /* ajuste do tamanho da letra */
-  line-height: 1; /* evitar espaçamento extra na altura */
-  color: var(--text-primary); /* cor primária */
-  top: 50%; /* centraliza verticalmente */
-  /* usamos variáveis para compor a translateX sem perder outras transforms */
-  transform: translateY(-50%) translateX(var(--tx, 0));
-  font-weight: 700;
-  text-shadow: 0 0 4px rgba(0,0,0,0.2);
-}
-
-.logo-symbol-1 {
-  left: 0; /* começa à esquerda */
-  --tx: 0;
-}
-
-.logo-symbol-2 {
-  left: 0.8rem; /* deslocamento do segundo */
-  --tx: 0;
-  mix-blend-mode: exclusion; /* mantém o efeito */
-  /* espelha horizontalmente apenas o contêiner */
-  transform: translateY(-50%) translateX(var(--tx, 0)) scaleX(-1);
-}
-
-/* letra interna para animações (manter scale separada do espelhamento) */
-.logo-symbol .letter {
-  display: inline-block;
-  transform-origin: center;
-}
-
-@keyframes logo-pop {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.45); }
-  65% { transform: scale(0.95); }
-  100% { transform: scale(1); }
-}
-
-/* ao passar o mouse, anima a letra e desloca os símbolos usando variáveis */
-.logo-container:hover .logo-symbol-1 { --tx: -0.5rem; }
-.logo-container:hover .logo-symbol-2 { --tx: 0.5rem; }
-.logo-container:hover .logo-symbol .letter { animation: logo-pop 0.6s cubic-bezier(.2,.9,.2,1); }
-
-/* texto central (ytezinho) escondido por padrão e revelado após a animação */
-.rest-text {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(-6px);
-  transition: opacity 0.28s ease, transform 0.28s ease;
-}
-.logo-container:hover + .center-logo .rest-text,
-.logo-container:hover ~ .center-logo .rest-text,
-.logo-container:hover .center-logo .rest-text {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.65s; /* aparece depois da animação do 'b' */
-}
-
-/* Opcional: Se quiser que o container geral do logo se ajuste melhor */
-.logo-container {
-    /* Mantém as regras existentes de .logo-container */
-    position: absolute;
-    left: var(--spacing-large);
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 2rem;
-    z-index: 10;
-    cursor: pointer;
-    /* Ajuste de largura se necessário para comportar o novo logo */
-    width: auto; /* Ou um valor fixo se preferir */
 }
