@@ -26,33 +26,24 @@
       </div>
     
       <div class="hero">
-        <h1>Seja Bem vindo <br>estamos apresentando <br> Seu assistente virtual <br> interaja com ele</h1>
-       
+        <h1>Seja Bem-vindo(a) <br>estamos apresentando <br> Seu assistente virtual <br> interaja com ele</h1>
+        
       </div>
     
-      <div class="contact-info">
-        <p class="contact-heading">+Get in touch</p>
-        <span class="contact-email">hi@filip.fyi</span>
-      </div>
     
       <div class="footer-links">
-        <a href="#" class="footer-link">Fluid Dynamics</a>
-        <a href="#" class="footer-link">Organic Shapes</a>
-        <a href="#" class="footer-link">Interactive Forms</a>
-        <a href="#" class="footer-link">Motion Studies</a>
-        <a href="#" class="footer-link">Contact</a>
+  
+        <a href="#" class="footer-link" id="details-toggler">Visitantes têm dúvidas. Alunos em...</a> 
+        
+        <a href="#" class="footer-link" id="integration-toggler">Outra chamada para ação (ex: Integração Rápida)</a>
+        
+        <a href="#" class="footer-link" id="support-toggler">Mais detalhes aqui (ex: Suporte 24h)</a>
       </div>
     
-      <div class="coordinates">
-        <p>Nexus State • Active</p>
-        <p>where consciousness flows</p>
-      </div>
+      
     </section>
     
-    <section class="section fin-section">
-      <div class="fin-text">{ Fin }</div>
-    </section>
-
+    
   <script type="module" src="{{ url_for('static_files', path='script.js') }}"></script>
 
   <!-- Chatbot Container -->
@@ -96,6 +87,33 @@
 
   <link rel="stylesheet" href="{{ url_for('static_files', path='chat.css') }}">
   <script src="{{ url_for('static_files', path='chatbot-ui.js') }}"></script>
+
+  <!-- Overlay 1: Por que Adquirir? (Detalhes) -->
+  <section id="chatbot-details-overlay">
+    <div id="details-card" class="card">
+        <button id="close-details-btn" aria-label="Fechar Detalhes">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <h2>🤖 Seu Assistente 24/7: Por que Adquirir o Bytezinho AI?</h2>
+        <p><strong>Aumente a Conversão:</strong> Respostas imediatas resolvem dúvidas e guiam visitantes 3x mais rápido na jornada de compra.</p>
+        <p><strong>Disponibilidade Ininterrupta:</strong> Vendas e suporte funcionando 24 horas por dia, 7 dias por semana, sem custos operacionais adicionais.</p>
+        <p><strong>Integração Simples:</strong> Nosso Chatbot é projetado para ser integrado com poucas linhas de código no seu site atual (HTML, CSS, JS).</p>
+        </div>
+  </section>
+
+  <!-- NOVO Overlay 2: Integração Rápida -->
+  <section id="integration-overlay">
+    <div id="integration-card" class="card">
+        <button id="close-integration-btn" aria-label="Fechar Detalhes de Integração">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <h2>⚡ Integração em Minutos: Como o Bytezinho se Conecta ao Seu Site?</h2>
+        <p><strong>Tecnologia Universal:</strong> Não importa se você usa HTML puro, React, ou Wordpress. Nosso código é uma pequena linha de JavaScript que você insere antes da tag `</body>` do seu site.</p>
+        <p><strong>Personalização Total:</strong> Você pode ajustar cores, fontes e até mesmo o ícone do nosso assistente para que ele combine perfeitamente com a identidade visual da sua marca.</p>
+        <p><strong>Sem Impacto no Desempenho:</strong> O Bytezinho é otimizado para não pesar, garantindo que o seu site continue rápido e com ótima pontuação de SEO.</p>
+        <p>Clique em fechar e comece a interagir agora mesmo!</p>
+    </div>
+  </section>
 
 </body>
 </html>

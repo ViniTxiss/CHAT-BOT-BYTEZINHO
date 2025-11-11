@@ -1,6 +1,6 @@
 /* ===== Estilos Gerais do Corpo do Chat ===== */
 body.chat-body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
     background-color: transparent; /* Fundo transparente para o iframe */
     margin: 0;
     padding: 0;
@@ -355,7 +355,7 @@ div.chat-input {
 .chatbot-title h3 { margin: 0; font-size: 1.05rem; }
 .chatbot-status { font-size: 0.8rem; color: rgba(255,255,255,0.9); text-transform: lowercase; }
 
-.chatbot-close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+.chatbot-close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1; }
 
 .chatbot-body { height: 380px; overflow-y: auto; padding: 18px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
 
@@ -412,7 +412,14 @@ div.chat-input {
 .chatbot-toggler { position: fixed; bottom: 30px; right: 30px; background: #7d048d; border: none; width: 56px; height: 56px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.18s ease; z-index: 1200; }
 .chatbot-toggler:hover { transform: scale(1.06); }
 .chatbot-icon { font-size: 1.6rem; color: #fff; }
-.chatbot-notification { position: absolute; top: -5px; right: -5px; width: 10px; height: 10px; background: #ff6b6b; border-radius: 50%; border: 2px solid #fff; }
+.chatbot-notification { position: absolute; top: -5px; right: -5px; width: 10px; height: 10px; background: #38e603; border-radius: 50%; border: 2px solid #fff; }
 
 /* small responsive tweak */
-@media (max-width: 480px) { .chatbot-container { right: 12px; left: 12px; bottom: 90px; width: auto; } }
+@media (max-width: 480px) {
+  .chatbot-container {
+    right: 12px;
+    left: 12px;
+    bottom: 85px; /* Ajustado para melhor posicionamento em mobile */
+    width: auto;
+  }
+}

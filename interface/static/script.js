@@ -525,30 +525,39 @@ function setupEventListeners() {
 }
 
 function onTouchStart(event) {
-  event.preventDefault();
+  // Verifica se o alvo do toque ou um de seus pais é um botão, link ou o toggler do chatbot.
+  // Se o toque ocorrer dentro do chatbot ou de um overlay, permite a ação padrão (como rolar).
+  if (event.target.closest('.chatbot-container, #chatbot-details-overlay, #integration-overlay')) {
+    return;
+  }
+
   if (event.touches.length > 0) {
     const touch = event.touches[0];
     onPointerMove({
       clientX: touch.clientX,
       clientY: touch.clientY
     });
+    event.preventDefault(); // Previne o padrão apenas para a animação
   }
 }
 
 function onTouchMove(event) {
-  event.preventDefault();
+  // Mesma verificação do onTouchStart para o movimento.
+  if (event.target.closest('.chatbot-container, #chatbot-details-overlay, #integration-overlay')) {
+    return;
+  }
+
   if (event.touches.length > 0) {
     const touch = event.touches[0];
     onPointerMove({
       clientX: touch.clientX,
       clientY: touch.clientY
     });
+    event.preventDefault(); // Previne o padrão apenas para a animação
   }
 }
 
-function onTouchEnd(event) {
-  event.preventDefault();
-}
+function onTouchEnd(event) {}
 
 function onPointerMove(event) {
   // Use consistent coordinate system for mouse
@@ -1014,3 +1023,39 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+// Adicionar esta nova função dentro do document.addEventListener("DOMContentLoaded", ...)
+
+// NOVO: Lógica do Overlay de Detalhes do Footer
+const detailsToggler = document.getElementById('details-toggler');
+const detailsOverlay = document.getElementById('chatbot-details-overlay');
+const closeDetailsBtn = document.getElementById('close-details-btn');
+
+if (detailsToggler && detailsOverlay && closeDetailsBtn) {
+    // Abrir Overlay
+    detailsToggler.addEventListener('click', (e) => {
+        e.preventDefault();
+        detailsOverlay.classList.add('active');
+    });
+
+    // Fechar Overlay pelo botão
+    closeDetailsBtn.addEventListener('click', () => {
+        detailsOverlay.classList.remove('active');
+    });
+
+    // Fechar Overlay clicando fora do card (opcional, mas recomendado)
+    detailsOverlay.addEventListener('click', (e) => {
+        if (e.target.id === 'chatbot-details-overlay') {
+            detailsOverlay.classList.remove('active');
+        }
+    });
+
+    // Fechar Overlay pela tecla ESC (opcional)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && detailsOverlay.classList.contains('active')) {
+            detailsOverlay.classList.remove('active');
+        }
+    });
+}
+
+// ... restante do seu código (animações, email functionality, etc.)
